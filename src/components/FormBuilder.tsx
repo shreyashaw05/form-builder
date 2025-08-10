@@ -1,39 +1,82 @@
-import React, { useEffect } from 'react'
-import Cloze from './Cloze';
-import Comprehension from './Comprehension';
-import Categorize from './Categorize';
-const FormBuilder = () => {
-    const [questionSequence, setQuestionSequence] = React.useState<string[]>([]);
-    useEffect(() => {
-        console.log("Current question sequence:", questionSequence);
-    }, [questionSequence]);
+import React, { useEffect } from "react"
+import Cloze from "./Cloze"
+import Comprehension from "./Comprehension"
+import Categorize from "./Categorize"
+import DndWrapper from "../context/DndWrapper"
+import { SortableQuestionSequence } from "./QuestionList"
 
-    const renderQuestion = () => {
-        return questionSequence.map((questionType, index) => {
-            switch (questionType) {
-                case "categorization":
-                    return <Categorize key={index} />;
-                case "cloze":
-                    return <Cloze key={index} />;
-                case "comprehension":
-                    return <Comprehension key={index} />;
-                default:
-                    return null;
-            }
-        });
-    }
+const FormBuilder = () => {
+  const [questionSequence, setQuestionSequence] = React.useState<string[]>([])
+
+  useEffect(() => {
+    console.log("Current question sequence:", questionSequence)
+  }, [questionSequence])
+
+  const renderQuestion = () => {
+    return questionSequence.map((questionType, index) => {
+      switch (questionType) {
+        case "categorization":
+          return <Categorize key={index} />
+        case "cloze":
+          return <Cloze key={index} />
+        case "comprehension":
+          return <Comprehension key={index} />
+        default:
+          return null
+      }
+    })
+  }
 
   return (
-    <div>
-        <h1>Lets Coutomize the form </h1>
-        <button onClick={()=> setQuestionSequence(prev=>[...prev, "categorization"])} className="bg-green-500 text-white px-4 py-2 rounded mr-2 hover:bg-green-600">category</button>
-        <button onClick={()=> setQuestionSequence(prev=>[...prev, "cloze"])}  className="bg-purple-500 text-white px-4 py-2 rounded mr-2 hover:bg-purple-600">cloze</button>
-        <button onClick={()=> setQuestionSequence(prev=>[...prev, "comprehension"])}  className="bg-yellow-500 text-white px-4 py-2 rounded mr-2 hover:bg-yellow-600">comprehension</button>
-        <button className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-900">submit</button>
+    <div className="max-w-4xl mx-auto p-6 space-y-6">
+      <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <h1 className="text-2xl font-semibold text-gray-900 mb-6">Form Builder</h1>
 
-        {
-            renderQuestion()
-        }
+        <div className="flex flex-wrap gap-3 mb-6">
+          <button
+            onClick={() => setQuestionSequence((prev) => [...prev, "categorization"])}
+            className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900 transition-colors text-sm font-medium"
+          >
+            Categorization
+          </button>
+          <button
+            onClick={() => setQuestionSequence((prev) => [...prev, "cloze"])}
+            className="bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors text-sm font-medium"
+          >
+            Cloze Test
+          </button>
+          <button
+            onClick={() => setQuestionSequence((prev) => [...prev, "comprehension"])}
+            className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors text-sm font-medium"
+          >
+            Comprehension
+          </button>
+          <button className="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-900 transition-colors text-sm font-medium ml-auto">
+            Submit Form
+          </button>
+        </div>
+
+        {questionSequence.length > 0 && (
+          <div className="border-t border-gray-200 pt-4">
+            <h2 className="text-lg font-medium text-gray-800 mb-3">Question Sequence</h2>
+            <div className="flex flex-wrap gap-2 mb-4">
+                <DndWrapper items={questionSequence} setItems={setQuestionSequence}>
+                      {questionSequence.map((type, index) => (
+                <SortableQuestionSequence 
+                      item={type}
+                      index={index}
+                        id={index}
+                        />
+              ))}
+                        
+                    </DndWrapper>
+            
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="space-y-6">{renderQuestion()}</div>
     </div>
   )
 }

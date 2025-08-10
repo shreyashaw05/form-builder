@@ -30,48 +30,57 @@ export function SortableItem({item, index, updateItem, setCorrectCategory, remov
   };
 
   
-  return (
-    <div  style={style} className="space-y-3 flex">
+ return (
+    <div
+      style={style}
+      className="bg-white border border-gray-200 rounded-md p-4 space-y-3 hover:border-gray-300 transition-colors"
+    >
       <div className="flex items-center gap-3">
-        <div 
-          {...attributes} 
+        <div
+          {...attributes}
           {...listeners}
-          className="w-4 h-4 rounded-full bg-slate-300 cursor-grab active:cursor-grabbing flex items-center justify-center hover:bg-slate-400 transition-colors"
+          className="w-6 h-6 rounded-md bg-gray-200 cursor-grab active:cursor-grabbing flex items-center justify-center hover:bg-gray-300 transition-colors"
         >
-          <GripVertical className="w-3 h-3 text-slate-600" />
+          <GripVertical className="w-4 h-4 text-gray-600" />
         </div>
-        <div ref={setNodeRef}>
-        <input
-          type="text"
-          placeholder={`Item ${index + 1}`}
-          value={item}
-          onChange={(e) => updateItem(index, e.target.value)}
-          className="flex-1 border-2 border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all duration-200"
-        />
+        <div ref={setNodeRef} className="flex-1">
+          <input
+            type="text"
+            placeholder={`Item ${index + 1}`}
+            value={item}
+            onChange={(e) => updateItem(index, e.target.value)}
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500 transition-all duration-200 placeholder-gray-500"
+          />
         </div>
-        
         <button
           onClick={() => removeItem(index)}
-          className="w-8 h-8 flex items-center justify-center text-red-500 hover:bg-red-50 rounded-lg transition-colors duration-200"
+          className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200"
         >
           <X className="w-4 h-4" />
         </button>
       </div>
-      <div className="ml-7">
+      <div className="ml-9">
         <select
-          onChange={e=>setCorrectCategory(prev => {
-            const newCategories = [...prev];
-            newCategories[index] = e.target.value;
-            return newCategories;
-          })}
-          className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all duration-200 bg-slate-50"
+          onChange={(e) =>
+            setCorrectCategory((prev) => {
+              const newCategories = [...prev]
+              newCategories[index] = e.target.value
+              return newCategories
+            })
+          }
+          className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500 transition-all duration-200 bg-gray-50"
         >
           <option value="">Assign to Category</option>
-          {categories.map((cat, catIndex) => (
-            cat && <option key={catIndex} value={cat}>{cat}</option>
-          ))}
+          {categories.map(
+            (cat, catIndex) =>
+              cat && (
+                <option key={catIndex} value={cat}>
+                  {cat}
+                </option>
+              ),
+          )}
         </select>
       </div>
     </div>
-  );
+  )
 }
