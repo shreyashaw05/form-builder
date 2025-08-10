@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HelpCircle, Plus, BookOpen } from 'lucide-react';
 import { SortableQuestion } from './SortableQuestions';
 import DndWrapper from '../context/DndWrapper';
-
-const Comprehension = () => {
+interface ComprehensionProps {
+  setPayload: React.Dispatch<React.SetStateAction<any>>;
+  submit: boolean;
+}
+const Comprehension = ({setPayload, submit}:ComprehensionProps) => {
   const [passage, setPassage] = useState('');
   const [instruction, setInstruction] = useState('');
   const [selectedMedia, setSelectedMedia] = useState('');
@@ -53,6 +56,10 @@ const [questions, setQuestions] = useState<Question[]>([
     newQuestions[questionIndex].options[optionIndex] = value;
     setQuestions(newQuestions);
   };
+    useEffect(() => {
+      if(submit)
+        submitForm();
+    }, [submit]);
 
   const submitForm = () => {
     const payload = {
@@ -63,6 +70,7 @@ const [questions, setQuestions] = useState<Question[]>([
       questions: questions.filter(q => q.question.trim() !== ''),
       points: points
     };
+    setPayload((prev:any)=>[...prev, payload])
     console.log('Comprehension form submitted:', payload);
   };
 

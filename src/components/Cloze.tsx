@@ -3,7 +3,7 @@ import { HelpCircle, Type } from 'lucide-react';
 import DndWrapper from "../context/DndWrapper";
 import { SortableCloze } from "./SortableclozeOptions";
 
-const Cloze = () => {
+const Cloze = (props:any) => {
   const [showFormatter, setShowFormatter] = React.useState(true);
   const [inputValue, setInputValue] = React.useState("");
   const [finalValue, setFinalValue] = React.useState("");
@@ -45,7 +45,10 @@ const Cloze = () => {
       }
     }
   };
-
+  useEffect(() => {
+    if(props.submit)
+      submitForm();
+  }, [props.submit]);
   const submitForm = () => {
     const payload = {
       type: "cloze",
@@ -54,6 +57,7 @@ const Cloze = () => {
       answers: selectedText,
       points: points
     };
+    props.setPayload((prev:any)=>[...prev, payload])
     console.log('Cloze form submitted:', payload);
   };
 

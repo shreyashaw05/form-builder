@@ -3,7 +3,7 @@ import { HelpCircle, Plus, X, Image, Video, Grid3X3 } from 'lucide-react';
 import DndWrapper from '../context/DndWrapper';
 import { SortableItem } from './SortableItem';
 
-const Categorize = () => {
+const Categorize = ({ setPayload, submit }: { setPayload: React.Dispatch<React.SetStateAction<any>>, submit:boolean }) => {
   const [categories, setCategories] = useState(['cat1', 'cat2']);
   const [items, setItems] = useState(['1']);
   const [correct_category, setCorrectCategory] = useState<string[]>([]);
@@ -66,6 +66,10 @@ const Categorize = () => {
     setAnswer(updatedAnswer);
   }, [items, correct_category]);
 
+  useEffect(() => {
+    if(submit)
+      submitForm();
+  }, [submit]);
 
   const submitForm = () => {
     const payload = {
@@ -75,6 +79,7 @@ const Categorize = () => {
       items:answer,
       points:points
     };
+   setPayload((prev:any)=>[...prev, payload])
     console.log('Form submitted:', payload);
   }
 
