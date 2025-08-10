@@ -3,6 +3,7 @@ export default function App() {
   return (
     <>    
     <Categorize/>
+    {/* <Categorize/> */}
     </>
   );
 }

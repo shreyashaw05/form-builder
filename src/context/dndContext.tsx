@@ -21,11 +21,14 @@ interface DndWrapperProps {
   items: string[];
   updateItem: (index: number, value: string) => void;
   setItems: React.Dispatch<React.SetStateAction<string[]>>;
+  setCorrectCategory: React.Dispatch<React.SetStateAction<string[]>>;
   removeItem: (index: number) => void;
+//   handleUpdation: (e:any, item:string,index:any) => void;
+
   categories: string[];
 }
 
-export default function DndWrapper({items, updateItem, setItems, removeItem, categories}: DndWrapperProps) {
+export default function DndWrapper({items, updateItem, setCorrectCategory, setItems, removeItem, categories}: DndWrapperProps) {
 const [activeId, setActiveId] = useState<string | number | null>(null);
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -46,12 +49,13 @@ const [activeId, setActiveId] = useState<string | number | null>(null);
         items={items}
         strategy={verticalListSortingStrategy}
       >
-        {items.map((item, index) => <SortableItem item={item} index={index} updateItem={updateItem} removeItem={removeItem} categories={categories} key={index} id={index} />)}
+        {items.map((item, index) => <SortableItem setCorrectCategory={setCorrectCategory} item={item} index={index} updateItem={updateItem} removeItem={removeItem} categories={categories} key={index} id={index} />)}
       </SortableContext>
       <DragOverlay>
         {activeId !== null ? (
           <div className="opacity-50">
-            <SortableItem 
+            <SortableItem
+            setCorrectCategory={setCorrectCategory}
               item={items[Number(activeId)]} 
               index={Number(activeId)} 
               updateItem={updateItem} 
@@ -74,21 +78,21 @@ const [activeId, setActiveId] = useState<string | number | null>(null);
 
 function handleDragEnd(event: DragEndEvent) {
     const {active, over} = event;
-    console.log('Drag End Event:', event);
+    // console.log('Drag End Event:', event);
         setActiveId(null);
     if (!over) {
-        console.log('No item was dragged over.');
+        // console.log('No item was dragged over.');
         return;
     }
-    console.log('Active ID:', active.id, 'Over ID:', over.id);
+    // console.log('Active ID:', active.id, 'Over ID:', over.id);
 
     if (active.id !== over.id) {
         setItems((prevItems) => {
             const oldIndex = Number(active.id);
             const newIndex = Number(over.id);
-            console.log('Old Index:', oldIndex, 'New Index:', newIndex);
+            // console.log('Old Index:', oldIndex, 'New Index:', newIndex);
             const movedItems = arrayMove(prevItems, oldIndex, newIndex);
-            console.log('Items after move:', movedItems);
+            // console.log('Items after move:', movedItems);
             return movedItems;
         });
     }

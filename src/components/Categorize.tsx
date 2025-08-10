@@ -1,12 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HelpCircle, Plus, X, Upload, Image, Video, FileText, Music } from 'lucide-react';
 import DndWrapper from '../context/dndContext';
 
 const Categorize = () => {
-  const [categories, setCategories] = useState(['', '']);
-  const [items, setItems] = useState(['', '']);
+  const [categories, setCategories] = useState(['cat1', 'cat2']);
+  const [items, setItems] = useState(['1']);
   const [selectedMedia, setSelectedMedia] = useState('');
-  
+  const [correct_category, setCorrectCategory] = useState<string[]>([]);
+  const [points, setPoints] = useState(10);
+  const [answer, setAnswer] = useState([{
+    id:Number(new Date()),
+    item_name: "",
+    correct_category: "",
+  }]);
+  const [question, setQuestion] = useState('');
   const addCategory = () => {
     setCategories([...categories, '']);
   };
@@ -19,11 +26,17 @@ const Categorize = () => {
 
   const addItem = () => {
     setItems([...items, '']);
+    setAnswer([...answer, {
+      id:Number(new Date()),
+      item_name: "",
+      correct_category: "",
+    }]);
   };
 
   const removeItem = (index) => {
     if (items.length > 2) {
       setItems(items.filter((_, i) => i !== index));
+      setAnswer(answer.filter((_, i) => i !== index));
     }
   };
 
@@ -38,7 +51,18 @@ const Categorize = () => {
     newItems[index] = value;
     setItems(newItems);
   };
+  useEffect(() => {
+    console.log("items", correct_category);
+  }, [correct_category]);
 
+  useEffect(() => {
+    const updatedAnswer = answer.map((ans, index) => ({
+      ...ans,
+      item_name: items[index] || "",
+      correct_category: correct_category[index] || "",
+    }));
+    setAnswer(updatedAnswer);
+  }, [items, correct_category]);
   const getMediaIcon = (type:any) => {
     switch (type) {
       case 'image': return <Image className="w-4 h-4" />;
@@ -49,6 +73,17 @@ const Categorize = () => {
     }
   };
 
+
+  const submitForm = () => {
+    const payload = {
+      type: "categorization",
+      question: question,
+      categories: categories.filter(cat => cat.trim() !== ''),
+      items:answer,
+      points:points
+    };
+    console.log('Form submitted:', payload);
+  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-6">
       <div className="max-w-4xl mx-auto">
@@ -60,12 +95,9 @@ const Categorize = () => {
               <p className="text-slate-600">Organize and classify your content efficiently</p>
             </div>
             <div className="flex items-center gap-4">
-              <select className="bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0 rounded-xl px-4 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer">
-                <option value="">Categorization Type</option>
-                <option value="type1">Content Classification</option>
-                <option value="type2">Topic Sorting</option>
-                <option value="type3">Priority Grouping</option>
-              </select>
+              <p className="bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0 rounded-xl px-4 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer">
+                Categorize
+              </p>
               <button
                 className="w-10 h-10 flex items-center justify-center bg-slate-100 hover:bg-blue-100 border border-slate-200 rounded-xl text-slate-600 hover:text-blue-600 transition-all duration-200"
                 title="Help & Instructions"
@@ -75,6 +107,8 @@ const Categorize = () => {
               <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2">
                 <span className="text-sm font-medium text-amber-700">Points:</span>
                 <input
+                value={points}
+                onChange={e=> setPoints(parseInt(e.target.value))}
                   type="number"
                   placeholder="100"
                   className="w-16 bg-transparent border-0 text-amber-800 font-semibold focus:outline-none"
@@ -85,6 +119,7 @@ const Categorize = () => {
           
           <div className="relative">
             <input
+            onChange={(e)=> setQuestion(e.target.value)}
               type="text"
               placeholder="Enter a detailed description of your categorization task..."
               className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-700 focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all duration-200 placeholder-slate-400"
@@ -171,7 +206,7 @@ const Categorize = () => {
               </button>
             </div>
             <div className="space-y-4">
-              <DndWrapper items={items} setItems={setItems} updateItem={updateItem} removeItem={removeItem} categories={categories} />
+              <DndWrapper items={items} setCorrectCategory={setCorrectCategory} setItems={setItems} updateItem={updateItem} removeItem={removeItem} categories={categories} />
               {/* {items.map((item, index) => (
                 <div key={index} className="space-y-3">
                   <div className="flex items-center gap-3">
@@ -215,7 +250,7 @@ const Categorize = () => {
             <button className="px-6 py-3 border-2 border-slate-300 text-slate-700 hover:border-slate-400 rounded-xl font-medium transition-all duration-200">
               Preview
             </button>
-            <button className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200">
+            <button onClick={submitForm} className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200">
               Create Categorization
             </button>
           </div>

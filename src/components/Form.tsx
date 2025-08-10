@@ -8,10 +8,12 @@ interface SortableItemProps {
   updateItem: (index: number, value: string) => void;
   removeItem: (index: number) => void;
   categories: string[];
+  //  handleUpdation: (e:any, item,index) => void;
+  setCorrectCategory: React.Dispatch<React.SetStateAction<string[]>>;
   id: string | number;
 }
 
-export function SortableItem({item, index, updateItem, removeItem, categories, id}: SortableItemProps) {
+export function SortableItem({item, index, updateItem, setCorrectCategory, removeItem, categories, id}: SortableItemProps) {
   const {
     attributes,
     listeners,
@@ -55,7 +57,14 @@ export function SortableItem({item, index, updateItem, removeItem, categories, i
         </button>
       </div>
       <div className="ml-7">
-        <select className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all duration-200 bg-slate-50">
+        <select
+          onChange={e=>setCorrectCategory(prev => {
+            const newCategories = [...prev];
+            newCategories[index] = e.target.value;
+            return newCategories;
+          })}
+          className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all duration-200 bg-slate-50"
+        >
           <option value="">Assign to Category</option>
           {categories.map((cat, catIndex) => (
             cat && <option key={catIndex} value={cat}>{cat}</option>
