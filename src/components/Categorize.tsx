@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { HelpCircle, Plus, X, Upload, Image, Video, FileText, Music } from 'lucide-react';
-import DndWrapper from '../context/dndContext';
+import DndWrapper from '../context/DndWrapper';
+import { SortableItem } from './SortableItem';
 
 const Categorize = () => {
   const [categories, setCategories] = useState(['cat1', 'cat2']);
@@ -208,7 +209,20 @@ const Categorize = () => {
                 </button>
               </div>
               <div>
-                <DndWrapper items={items} setCorrectCategory={setCorrectCategory} setItems={setItems} updateItem={updateItem} removeItem={removeItem} categories={categories} />
+                <DndWrapper items={items} setItems={setItems}>
+                  {items.map((item, index) => (
+                    <SortableItem 
+                      key={index}
+                      setCorrectCategory={setCorrectCategory} 
+                      item={item} 
+                      index={index} 
+                      updateItem={updateItem} 
+                      removeItem={removeItem} 
+                      categories={categories} 
+                      id={index} 
+                    />
+                  ))}
+                </DndWrapper>
               </div>
             </div>
           </div>

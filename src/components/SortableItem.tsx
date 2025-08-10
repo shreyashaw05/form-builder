@@ -40,14 +40,15 @@ export function SortableItem({item, index, updateItem, setCorrectCategory, remov
         >
           <GripVertical className="w-3 h-3 text-slate-600" />
         </div>
+        <div ref={setNodeRef}>
         <input
-        ref={setNodeRef}
           type="text"
           placeholder={`Item ${index + 1}`}
           value={item}
           onChange={(e) => updateItem(index, e.target.value)}
           className="flex-1 border-2 border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all duration-200"
         />
+        </div>
         
         <button
           onClick={() => removeItem(index)}
