@@ -4,6 +4,7 @@ import Comprehension from "./Comprehension"
 import Categorize from "./Categorize"
 import DndWrapper from "../context/DndWrapper"
 import { SortableQuestionSequence } from "./QuestionList"
+import axios from "axios"
 
 const FormBuilder = () => {
   const [questionSequence, setQuestionSequence] = React.useState<string[]>([])
@@ -14,16 +15,26 @@ const FormBuilder = () => {
     console.log("Current question sequence:", questionSequence)
     console.log("payload:", payload)
     
-    // When submit is true and we have payloads, show the final result
     if (submit && payload.length > 0) {
       console.log("=== FINAL FORM SUBMISSION ===")
      
-      // Reset submit state after a brief delay to allow all components to submit
       setTimeout(() => {
         setSubmit(false)
+        handleSbmisiion()
       }, 100)
     }
   }, [submit, payload])
+
+  const handleSbmisiion = async () => {
+    console.log("Final payload submitted:", payload)
+    const response = await axios.post("http://localhost:3000/form-create", payload)
+// console.log("Response from server:", response)
+    if (response.status === 201) {
+      window.location.href = "/preview"
+    }
+    
+    setPayload([]);
+  }
 
   const renderQuestion = () => {
     return questionSequence.map((questionType, index) => {
