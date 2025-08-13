@@ -1,5 +1,5 @@
 
-import { FileText, Eye, ArrowRight } from "lucide-react"
+import { FileText, Eye, ArrowRight, Link } from "lucide-react"
 
 export default function Homepage() {
   return (
@@ -18,7 +18,7 @@ export default function Homepage() {
           {/* Navigation Cards */}
           <div className="grid md:grid-cols-2 gap-8 mt-16">
             {/* Form Builder Card */}
-            <a href="/form-builder" className="group">
+            <Link to="/form-builder" className="group">
               <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 hover:border-gray-300">
                 <div className="flex items-center justify-between mb-6">
                   <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center">
@@ -38,10 +38,10 @@ export default function Homepage() {
                   <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                 </div>
               </div>
-            </a>
+            </Link>
 
             {/* Preview Card */}
-            <a href="/preview" className="group">
+            <Link to="/preview" className="group">
               <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 hover:border-gray-300">
                 <div className="flex items-center justify-between mb-6">
                   <div className="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center">
@@ -61,7 +61,7 @@ export default function Homepage() {
                   <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                 </div>
               </div>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
