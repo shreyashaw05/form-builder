@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { Eye, Trash2, FileText, Loader2 } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"
 
@@ -9,7 +10,7 @@ const PreviewDashboard = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const [deletingId, setDeletingId] = useState<string | null>(null)
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchForms = async () => {
       try {
@@ -124,7 +125,7 @@ const PreviewDashboard = () => {
                   <div className="flex gap-3">
                     <button
                       className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-black hover:bg-gray-800 text-white rounded-lg font-medium transition-colors"
-                      onClick={() => (window.location.href = `/preview/${form._id}`)}
+                      onClick={() => navigate(`/preview/${form._id}`)}
                     >
                       <Eye className="w-4 h-4" />
                       Preview

@@ -7,6 +7,7 @@ import { SortableQuestionSequence } from "./SortableItems/QuestionList"
 import axios from "axios"
 import Cloze from "./FormBuilder/Cloze"
 import Comprehension from "./FormBuilder/Comprehension"
+import { useNavigate } from "react-router-dom";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
@@ -14,7 +15,7 @@ const FormBuilder = () => {
   const [questionSequence, setQuestionSequence] = React.useState<string[]>([])
   const [payload, setPayload] = React.useState<any>([])
   const [submit, setSubmit] = React.useState(false)
-
+  const navigate = useNavigate();
   useEffect(() => {
     console.log("Current question sequence:", questionSequence)
     console.log("payload:", payload)
@@ -34,7 +35,7 @@ const FormBuilder = () => {
     const response = await axios.post(`${BACKEND_URL}/form-create`, payload)
     // console.log("Response from server:", response)
     if (response.status === 201) {
-      window.location.href = "/preview"
+      navigate("/preview");
     }
 
     setPayload([])

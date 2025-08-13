@@ -178,23 +178,6 @@ const Cloze = (props:any) => {
           )}
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex items-center justify-between pt-6 border-t border-gray-200">
-          <button className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition-colors text-sm">
-            Save Draft
-          </button>
-          <div className="flex gap-3">
-            <button className="px-4 py-2 border border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50 rounded-md font-medium transition-all text-sm">
-              Preview
-            </button>
-            <button
-              onClick={submitForm}
-              className="px-6 py-2 bg-gray-800 hover:bg-gray-900 text-white rounded-md font-medium transition-colors text-sm"
-            >
-              Create Test
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   )
