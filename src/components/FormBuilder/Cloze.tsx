@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HelpCircle, Type } from 'lucide-react';
-import DndWrapper from "../context/DndWrapper";
-import { SortableCloze } from "./SortableclozeOptions";
+import { SortableCloze } from "../SortableItems/SortableclozeOptions";
+import DndWrapper from "../../context/DndWrapper";
+
 
 const Cloze = (props:any) => {
   const [showFormatter, setShowFormatter] = React.useState(true);

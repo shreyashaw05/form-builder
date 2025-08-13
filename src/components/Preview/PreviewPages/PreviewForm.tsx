@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import ClozePreview from './ClozePreview';
-import CategorizePreview from './CategorizePreview';
-import ComprehensionPreview from './ComprehensionPreview';
-// import CategorizePreview from './CategorizePreview'; // Uncomment if you have this component
-// import ComprehensionPreview from './ComprehensionPreview'; // Uncomment if you have this component
+import ClozePreview from '../ClozePreview';
+import CategorizePreview from '../CategorizePreview';
+import ComprehensionPreview from '../ComprehensionPreview';
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"
 
 const PreviewForm = () => {
   const { id } = useParams();
@@ -16,7 +16,7 @@ const PreviewForm = () => {
   useEffect(() => {
     const fetchForm = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/form-data?id=${id}`);
+        const response = await axios.get(`${BACKEND_URL}/form-data?id=${id}`);
         setFormData(response.data);
       } catch (err) {
         setError("Failed to fetch form data");
@@ -31,7 +31,6 @@ const PreviewForm = () => {
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
   if (!formData) return null;
 
-  // Combine all questions into a single array with type property
   const allQuestions = [
     ...(formData.categories || []),
     ...(formData.clozes || []),

@@ -2,9 +2,8 @@ import { useState } from "react"
 import { ChevronDown, ChevronRight, BookOpen, Target, Award } from "lucide-react"
 
 const ComprehensionPreview = ({ question }: { question: any }) => {
-  // Track open state for each question
+  
   const [open, setOpen] = useState<boolean[]>([])
-  // Track selected option for each question
   const [selected, setSelected] = useState<(number | null)[]>([])
 
   if (!question || !question.questions) return null

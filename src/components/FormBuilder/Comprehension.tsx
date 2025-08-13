@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { HelpCircle, Plus, BookOpen } from 'lucide-react';
-import { SortableQuestion } from './SortableQuestions';
-import DndWrapper from '../context/DndWrapper';
+import { SortableQuestion } from '../SortableItems/SortableQuestions';
+import DndWrapper from '../../context/DndWrapper';
+
 interface ComprehensionProps {
   setPayload: React.Dispatch<React.SetStateAction<any>>;
   submit: boolean;

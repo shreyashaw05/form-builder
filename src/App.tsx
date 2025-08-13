@@ -1,7 +1,7 @@
 import FormBuilder from './components/FormBuilder';
-import PreviewDashboard from './components/PreviewDashboard';
+import PreviewDashboard from './components/Preview/PreviewPages/PreviewDashboard';
 import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
-import PreviewForm from './components/PreviewForm';
+import PreviewForm from './components/Preview/PreviewPages/PreviewForm';
 import Homepage from './components/Homepage';
 
 export default function App() {

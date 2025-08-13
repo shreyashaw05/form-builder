@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { HelpCircle, Plus, X, Image, Video, Grid3X3 } from 'lucide-react';
-import DndWrapper from '../context/DndWrapper';
-import { SortableItem } from './SortableItem';
+import DndWrapper from '../../context/DndWrapper';
+import { SortableItem } from '../SortableItems/SortableItem';
 
 const Categorize = ({ setPayload, submit }: { setPayload: React.Dispatch<React.SetStateAction<any>>, submit:boolean }) => {
   const [categories, setCategories] = useState(['cat1', 'cat2']);

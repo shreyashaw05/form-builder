@@ -1,12 +1,14 @@
 "use client"
 
 import React, { useEffect } from "react"
-import Cloze from "./Cloze"
-import Comprehension from "./Comprehension"
-import Categorize from "./Categorize"
+import Categorize from "./FormBuilder/Categorize"
 import DndWrapper from "../context/DndWrapper"
-import { SortableQuestionSequence } from "./QuestionList"
+import { SortableQuestionSequence } from "./SortableItems/QuestionList"
 import axios from "axios"
+import Cloze from "./FormBuilder/Cloze"
+import Comprehension from "./FormBuilder/Comprehension"
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
 const FormBuilder = () => {
   const [questionSequence, setQuestionSequence] = React.useState<string[]>([])
@@ -29,7 +31,7 @@ const FormBuilder = () => {
 
   const handleSubmission = async () => {
     console.log("Final payload submitted:", payload)
-    const response = await axios.post("http://localhost:3000/form-create", payload)
+    const response = await axios.post(`${BACKEND_URL}/form-create`, payload)
     // console.log("Response from server:", response)
     if (response.status === 201) {
       window.location.href = "/preview"

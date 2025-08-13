@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import { Eye, Trash2, FileText, Loader2 } from "lucide-react"
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"
+
 const PreviewDashboard = () => {
   const [forms, setForms] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -11,7 +13,7 @@ const PreviewDashboard = () => {
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/forms")
+        const response = await axios.get(`${BACKEND_URL}/forms`)
         setForms(response.data)
       } catch (err: any) {
         setError("Failed to fetch forms")
@@ -25,7 +27,7 @@ const PreviewDashboard = () => {
   const handleDelete = async (formId: string) => {
     setDeletingId(formId)
     try {
-      await axios.delete(`http://localhost:3000/forms/${formId}`)
+      await axios.delete(`${BACKEND_URL}/forms/${formId}`)
       setForms((prev) => prev.filter((f) => f._id !== formId))
     } catch (err) {
       alert("Failed to delete form")
