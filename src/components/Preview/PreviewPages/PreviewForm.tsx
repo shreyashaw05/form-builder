@@ -36,6 +36,11 @@ const PreviewForm = () => {
     ...(formData.clozes || []),
     ...(formData.comprehensions || [])
   ];
+  const handleSubmission = async () => {
+   setTimeout(() => {
+      alert("Form submitted successfully!");
+    }, 1000);
+  }
 
   return (
     <div className="max-w-3xl mx-auto p-8">
@@ -53,6 +58,7 @@ const PreviewForm = () => {
             return <div key={question._id || idx}>Unknown question type</div>;
         }
       })}
+      <button onClick={()=>handleSubmission()} className='bg-gray-800 text-white px-4 py-2 rounded-4xl'>Submit</button>
     </div>
   );
 }
